@@ -3,6 +3,12 @@
 Searchable Event Log for hMailServer 
 
 
+# Change Log
+
+- v.0.02 Added auto-populate drop down boxes to search "reason", "port" and "event"; removed "stringport" as superfluous; added hmsCLExpire.ps1 to auto expire entries via scheduled task; added OnClientLogon event to EventHandlers.vbs
+- v.0.01 Initial Commit
+
+
 # Prerequisites: 
 * MySQL
 * Apache/IIS with PHP
@@ -15,9 +21,8 @@ Searchable Event Log for hMailServer
 
 ```
 CREATE TABLE `hm_accrej` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `timestamp` datetime NOT NULL,
-  `stringport` varchar(4) NOT NULL,
   `port` int(3) NOT NULL,
   `event` varchar(20) NOT NULL,
   `accrej` varchar(20) NOT NULL,
@@ -34,3 +39,7 @@ https://github.com/eklam/VbsJson
 3) Modify EventHandlers.vbs
 
 4) Place index.php in a web accessible folder.
+
+5) Place hmsCLExpire.ps1 somewhere and create scheduled task to run once a day
+```Powershell -ExecutionPolicy Bypass -File C:\scripts\hmailserver\hmsCLExpire.ps1```
+!! Task must run with Administrator privileges in order to access MySQL !!

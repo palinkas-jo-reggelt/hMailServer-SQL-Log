@@ -23,7 +23,7 @@ Function GetDatabaseObject()
 End Function
 
 '	Credit 99.9% to SorenR
-Function AccRejDB(xStringport, xPort, xEvent, xAccRej, xReason, xIPAddress, xHELO)
+Function AccRejDB(xPort, xEvent, xAccRej, xReason, xIPAddress, xHELO)
    ' Find VbsJson.vbs here: https://github.com/eklam/VbsJson
    Include("C:\Program Files (x86)\hMailServer\Events\VbsJson.vbs")
    Dim ReturnCode, Json, oGeoip, oXML
@@ -37,7 +37,7 @@ Function AccRejDB(xStringport, xPort, xEvent, xAccRej, xReason, xIPAddress, xHEL
    On Error Goto 0
 
    Dim strSQL, oDB : Set oDB = GetDatabaseObject
-   strSQL = "INSERT INTO hm_accrej (timestamp, stringport, port, event, accrej, reason, ipaddress, country, helo) VALUES (NOW(),'" & xStringport & "','" & xPort & "','" & xEvent & "','" & xAccRej & "','" & xReason & "','" & xIPAddress & "','" & oGeoip("country") & "','" & xHELO & "');"
+   strSQL = "INSERT INTO hm_accrej (timestamp, port, event, accrej, reason, ipaddress, country, helo) VALUES (NOW(),'" & xPort & "','" & xEvent & "','" & xAccRej & "','" & xReason & "','" & xIPAddress & "','" & oGeoip("country") & "','" & xHELO & "');"
    Call oDB.ExecuteSQL(strSQL)
 End Function
 
@@ -52,19 +52,26 @@ Sub OnHELO(oClient)
 	If (Left(oClient.IPAddress, 9) = "127.0.0.1") Then Exit Sub
 	If (Left(oClient.IPAddress, 12) = "184.105.182.") Then Exit Sub
 
-	Dim strPort
-	strPort = Trim(Mid("SMTP POP  IMAP SMTPSSUBM IMAPSPOPS ", InStr("25   110  143  465  587  993  995  ", oClient.Port), 5))
-
 	If YourFilter Then
 		'
 		' filter code to accept connection (my example below taken from "GeoIP" filter)
 		'
-		Call AccRejDB(strPort, oClient.Port, "OnHELO", "Accepted", "GeoIP", oClient.IPAddress, oClient.HELO)
+		Call AccRejDB(oClient.Port, "OnHELO", "Accepted", "GeoIP", oClient.IPAddress, oClient.HELO)
 	Else
 		'
 		' filter code to reject connection (my example below taken from "GeoIP" filter)
 		'
-		Call AccRejDB(strPort, oClient.Port, "OnHELO", "REJECTED", "GeoIP", oClient.IPAddress, oClient.HELO)
+		Result.Value = 2
+		Result.Message = "Your access to this mail system has been rejected due to the sending MTA's poor reputation. If you believe that this failure is in error, please contact the intended recipient via alternate means."
+		Call AccRejDB(oClient.Port, "OnHELO", "REJECTED", "GeoIP", oClient.IPAddress, oClient.HELO)
 	End If
 
+End Sub
+
+Sub OnClientLogon(oClient)
+   If oClient.Authenticated then
+	  Call AccRejDB(oClient.Port, "OnClientLogon", "Accepted", "Login", oClient.IPAddress, oClient.Username)
+   Else
+	  Call AccRejDB(oClient.Port, "OnClientLogon", "REJECTED", "Login", oClient.IPAddress, oClient.Username)
+   End if
 End Sub
