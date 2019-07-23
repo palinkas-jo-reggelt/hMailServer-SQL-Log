@@ -316,18 +316,13 @@ li {
 
 	if ($total_rows == 1){$singular = '';} else {$singular= 's';}
 	if ($total_rows == 0){
-		if ($search == "" && $date == ""){
+		if ($search == "" && $date == "" && $AR == "" && $event == "" && $reason == "" && $port == ""){
 			echo "Please enter a search term";
 		} else {
 			echo "No results ".$searchres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres;
 		}	
 	} else {
-		if ($search == "" && $date == ""){
-			echo "Please enter a search term. <br /><br />";
-			echo "All results".$ARres."".$dateres."".$eventres."".$reasonres."".$portres.": ".number_format($total_rows)." hit".$singular." (Page: ".number_format($page)." of ".number_format($total_pages).")<br />";
-		} else {
-			echo "Results ".$searchres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres.": ".number_format($total_rows)." Hit".$singular." (Page: ".number_format($page)." of ".number_format($total_pages).")<br />";
-		}
+		echo "Results ".$searchres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres.": ".number_format($total_rows)." Hit".$singular." (Page: ".number_format($page)." of ".number_format($total_pages).")<br />";
 		echo "<table class='section'>
 			<tr>
 				<th>Timestamp</th>

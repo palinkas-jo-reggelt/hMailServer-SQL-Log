@@ -5,6 +5,7 @@ Searchable Event Log for hMailServer
 
 # Change Log
 
+- v.0.03 Minor changes to display of results statement above table
 - v.0.02 Added auto-populate drop down boxes to search "reason", "port" and "event"; removed "stringport" as superfluous; added hmsCLExpire.ps1 to auto expire entries via scheduled task; added OnClientLogon event to EventHandlers.vbs
 - v.0.01 Initial Commit
 
