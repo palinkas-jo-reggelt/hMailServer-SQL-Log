@@ -347,11 +347,11 @@ li {
 			echo "</tr>";
 		}
 		echo "</table>";
-		if ($total_pages == 1){echo "";}
+		if ($total_pages < 2){echo "";}
 		else {
 			if ($AR==""){$ARpage="";} else {$ARpage="&AR=".$AR."";}
 			if ($date==""){$datepage="";} else {$datepage="&date=".$date."";} 
-			if ($search==""){$searchpage="";} else {$searcpage="&search=".$search."";}
+			if ($search==""){$searchpage="";} else {$searchpage="&search=".$search."";}
 			if ($event==""){$eventpage="";} else {$eventpage="&event=".$event."";}
 			if ($reason==""){$reasonpage="";} else {$reasonpage="&reason=".$reason."";}
 			if ($port==""){$portpage="";} else {$portpage="&port=".$port."";}
