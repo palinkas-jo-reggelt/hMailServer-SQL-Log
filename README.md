@@ -50,7 +50,7 @@ https://github.com/eklam/VbsJson
 
 # REGEX Search Instructions
 
-All regex queries must be made in the "Search Term" textbox prefaced with `REGEX:`. 
+All regex queries must be made in the "Search Term" textbox prefaced with `REGEX:` (uppercase letters required). 
 
 All regex queries with escape backslashes MUST be double escaped. For example, `\.` needs to be entered as `\\.` or the query will throw an error. 
 
