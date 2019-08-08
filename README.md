@@ -5,6 +5,7 @@ Searchable Event Log for hMailServer
 
 # Change Log
 
+- v.0.05 Added REGEX search on HELO column - See notes below for usage
 - v.0.04 Fixed a typo
 - v.0.03 Minor changes to display of results statement above table
 - v.0.02 Added auto-populate drop down boxes to search "reason", "port" and "event"; removed "stringport" as superfluous; added hmsCLExpire.ps1 to auto expire entries via scheduled task; added OnClientLogon event to EventHandlers.vbs
@@ -45,3 +46,14 @@ https://github.com/eklam/VbsJson
 5) Place hmsCLExpire.ps1 somewhere and create scheduled task to run once a day
 ```Powershell -ExecutionPolicy Bypass -File C:\scripts\hmailserver\hmsCLExpire.ps1```
 !! Task must run with Administrator privileges in order to access MySQL !!
+
+
+# REGEX Search Instructions
+
+All regex queries must be made in the "Search Term" textbox prefaced with `REGEX:`. 
+
+All regex queries with escape backslashes MUST be double escaped. For example, `\.` needs to be entered as `\\.` or the query will throw an error. 
+
+Example query: 
+
+`REGEX:^\\[(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\]$`

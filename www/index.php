@@ -210,7 +210,19 @@ li {
 		$display_pagination = 0;
 	}
 	if (isset($_GET['submit'])) {$button = $_GET ['submit'];} else {$button = "";}
-	if (isset($_GET['search'])) {$search = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['search'])));} else {$search = "";}
+	if (isset($_GET['search'])) {
+		if(preg_match('/^REGEX:.*$/', ($_GET['search']))) {
+			$searchRegex = mysqli_real_escape_string($con, preg_replace('/^(REGEX:)/', '',trim(stripslashes($_GET['search']))));
+			$searchRegexGet = mysqli_real_escape_string($con, preg_replace('/^(REGEX:)/', '',trim(stripslashes($_GET['search']))));
+			$search = "";
+		} else {
+			$searchRegex = "";
+			$search = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['search'])));
+		}
+	} else {
+		$search = "";
+		$searchRegex = "";
+	}
 	if (isset($_GET['AR'])) {$AR = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['AR'])));} else {$AR = "";}
 	if (isset($_GET['event'])) {$event = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['event'])));} else {$event = "";}
 	if (isset($_GET['port'])) {$port = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['port'])));} else {$port = "";}
@@ -224,9 +236,13 @@ li {
 	} else {
 		$date = "";
 	}
+	
+	if ($search==""){$searchPH="";}else{$searchPH=$search;}
+	if ($searchRegex==""){$searchRegexPH="";}else{$searchRegexPH="REGEX:".$searchRegex;}
+
 	echo "<div class='section'>";
 	echo "<form autocomplete='off' action='index.php' method='GET'> ";
-	echo	"<input type='text' size='20' name='search' placeholder='Search Term...' value='".$search."'>";
+	echo	"<input type='text' size='20' name='search' placeholder='Search Term...' value='".$searchPH.$searchRegexPH."'>";
 	echo	" ";
 	echo    "<input type='text' id='date' name='date' placeholder='Date...' value='".$date."' />";
 	echo	" ";
@@ -271,6 +287,9 @@ li {
 	$no_of_records_per_page = 20;
 	$offset = ($page-1) * $no_of_records_per_page;
 	
+	if ($search == "" && $searchRegex == "" && $date == "" && $AR == "" && $event == "" && $reason == "" && $port == ""){$where_SQL = "";} 
+	else {$where_SQL = " WHERE id LIKE '%'";}
+	
 	if ($AR=="REJ"){$AR_SQL = " AND accrej='REJECTED'";}
 	elseif ($AR=="ACC"){$AR_SQL = " AND accrej='Accepted'";}
 	else {$AR_SQL = "";}
@@ -287,12 +306,18 @@ li {
 	if ($reason==""){$reason_SQL = "";}
 	else {$reason_SQL = " AND reason='".$reason."'";}
 	
-	$total_pages_sql = "SELECT Count( * ) AS count FROM hm_accrej WHERE (timestamp LIKE '%{$search}%' OR port LIKE '%{$search}%' OR event LIKE '%{$search}%' OR reason LIKE '%{$search}%' OR ipaddress LIKE '%{$search}%' OR country LIKE '%{$search}%' OR helo LIKE '%{$search}%')".$AR_SQL."".$date_SQL."".$event_SQL."".$port_SQL."".$reason_SQL."";
+	if ($search==""){$search_SQL = "";} 
+	else {$search_SQL = " AND (timestamp LIKE '%".$search."%' OR port LIKE '%".$search."%' OR event LIKE '%".$search."%' OR reason LIKE '%".$search."%' OR ipaddress LIKE '%".$search."%' OR country LIKE '%".$search."%' OR helo LIKE '%".$search."%')";}
+
+	if ($searchRegex==""){$searchRegex_SQL = "";}
+	else {$searchRegex_SQL = " AND helo REGEXP '".$searchRegex."'";}
+	
+	$total_pages_sql = "SELECT Count( * ) AS count FROM hm_accrej ".$where_SQL.$search_SQL.$searchRegex_SQL.$AR_SQL.$date_SQL.$event_SQL.$port_SQL.$reason_SQL;
 	$result = mysqli_query($con,$total_pages_sql);
 	$total_rows = mysqli_fetch_array($result)[0];
 	$total_pages = ceil($total_rows / $no_of_records_per_page);
 
-	$sql = "SELECT DATE_FORMAT(timestamp, '%y/%m/%d %H:%i.%s') as TimeStamp, port, event, accrej, reason, country, ipaddress, helo FROM hm_accrej WHERE (timestamp LIKE '%{$search}%' OR port LIKE '%{$search}%' OR event LIKE '%{$search}%' OR reason LIKE '%{$search}%' OR ipaddress LIKE '%{$search}%' OR country LIKE '%{$search}%' OR helo LIKE '%{$search}%')".$AR_SQL."".$date_SQL."".$event_SQL."".$port_SQL."".$reason_SQL." ORDER BY TimeStamp DESC LIMIT $offset, $no_of_records_per_page";
+	$sql = "SELECT DATE_FORMAT(timestamp, '%y/%m/%d %H:%i.%s') as TimeStamp, port, event, accrej, reason, country, ipaddress, helo FROM hm_accrej".$where_SQL.$search_SQL.$searchRegex_SQL.$AR_SQL.$date_SQL.$event_SQL.$port_SQL.$reason_SQL." ORDER BY TimeStamp DESC LIMIT ".$offset.", ".$no_of_records_per_page;
 	$res_data = mysqli_query($con,$sql);
 	
 	if ($AR=="REJ"){$ARres=" with accept status \"<b>REJECTED</b>\"";} 
@@ -313,16 +338,19 @@ li {
 
 	if ($port==""){$portres="";}
 	else {$portres=" on port \"<b>".$port."</b>\"";}
+	
+	if ($searchRegex==""){$searchRegexres="";}
+	else {$searchRegexres=" for Regex search \"<b>".$searchRegex."</b>\"";}
 
 	if ($total_rows == 1){$singular = '';} else {$singular= 's';}
 	if ($total_rows == 0){
-		if ($search == "" && $date == "" && $AR == "" && $event == "" && $reason == "" && $port == ""){
+		if ($search == "" && $searchRegex == "" && $date == "" && $AR == "" && $event == "" && $reason == "" && $port == ""){
 			echo "Please enter a search term";
 		} else {
-			echo "No results ".$searchres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres;
+			echo "No results ".$searchres."".$searchRegexres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres;
 		}	
 	} else {
-		echo "Results ".$searchres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres.": ".number_format($total_rows)." Hit".$singular." (Page: ".number_format($page)." of ".number_format($total_pages).")<br />";
+		echo "Results ".$searchres."".$searchRegexres."".$ARres."".$dateres."".$eventres."".$reasonres."".$portres.": ".number_format($total_rows)." Hit".$singular." (Page: ".number_format($page)." of ".number_format($total_pages).")<br />";
 		echo "<table class='section'>
 			<tr>
 				<th>Timestamp</th>
@@ -352,15 +380,16 @@ li {
 			if ($AR==""){$ARpage="";} else {$ARpage="&AR=".$AR."";}
 			if ($date==""){$datepage="";} else {$datepage="&date=".$date."";} 
 			if ($search==""){$searchpage="";} else {$searchpage="&search=".$search."";}
+			if ($searchRegex==""){$searchRegexpage="";} else {$searchRegexpage="&search=REGEX:".$searchRegexGet."";}
 			if ($event==""){$eventpage="";} else {$eventpage="&event=".$event."";}
 			if ($reason==""){$reasonpage="";} else {$reasonpage="&reason=".$reason."";}
 			if ($port==""){$portpage="";} else {$portpage="&port=".$port."";}
 
 			echo "<ul>";
-			if($page <= 1){echo "<li>First </li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=1\">First </a><li>";}
-			if($page <= 1){echo "<li>Prev </li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=".($page - 1)."\">Prev </a></li>";}
-			if($page >= $total_pages){echo "<li>Next </li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=".($page + 1)."\">Next </a></li>";}
-			if($page >= $total_pages){echo "<li>Last</li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=".$total_pages."\">Last</a></li>";}
+			if($page <= 1){echo "<li>First </li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$searchRegexpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=1\">First </a><li>";}
+			if($page <= 1){echo "<li>Prev </li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$searchRegexpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=".($page - 1)."\">Prev </a></li>";}
+			if($page >= $total_pages){echo "<li>Next </li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$searchRegexpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=".($page + 1)."\">Next </a></li>";}
+			if($page >= $total_pages){echo "<li>Last</li>";} else {echo "<li><a href=\"?submit=Search".$searchpage."".$searchRegexpage."".$ARpage."".$datepage."".$eventpage."".$reasonpage."".$portpage."&page=".$total_pages."\">Last</a></li>";}
 			echo "</ul>";
 		}
 		if ($total_pages > 0){
