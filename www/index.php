@@ -1,7 +1,7 @@
 <?php
 // Fill in variables
-$m_host="root";
-$m_dbuser="hmailserver";
+$m_host="localhost";
+$m_dbuser="root";
 $m_dbpass="supersecretpassword";
 $m_db="hmailserver";
 
@@ -217,7 +217,7 @@ li {
 			$search = "";
 		} else {
 			$searchRegex = "";
-			$search = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim($_GET['search'])));
+			$search = mysqli_real_escape_string($con, preg_replace('/\s+/', ' ',trim(stripslashes($_GET['search']))));
 		}
 	} else {
 		$search = "";
@@ -242,7 +242,7 @@ li {
 
 	echo "<div class='section'>";
 	echo "<form autocomplete='off' action='index.php' method='GET'> ";
-	echo	"<input type='text' size='20' name='search' placeholder='Search Term...' value='".$searchPH.$searchRegexPH."'>";
+	echo	"<input type='text' size='20' name='search' placeholder='Search Term...' value='".$searchPH."".$searchRegexPH."'>";
 	echo	" ";
 	echo    "<input type='text' id='date' name='date' placeholder='Date...' value='".$date."' />";
 	echo	" ";
@@ -380,7 +380,7 @@ li {
 			if ($AR==""){$ARpage="";} else {$ARpage="&AR=".$AR."";}
 			if ($date==""){$datepage="";} else {$datepage="&date=".$date."";} 
 			if ($search==""){$searchpage="";} else {$searchpage="&search=".$search."";}
-			if ($searchRegex==""){$searchRegexpage="";} else {$searchRegexpage="&search=REGEX:".$searchRegexGet."";}
+			if ($searchRegex==""){$searchRegexpage="";} else {$searchRegexpage="&search=REGEX:".urlencode($searchRegexGet)."";}
 			if ($event==""){$eventpage="";} else {$eventpage="&event=".$event."";}
 			if ($reason==""){$reasonpage="";} else {$reasonpage="&reason=".$reason."";}
 			if ($port==""){$portpage="";} else {$portpage="&port=".$port."";}

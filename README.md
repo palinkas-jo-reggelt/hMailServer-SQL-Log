@@ -5,6 +5,7 @@ Searchable Event Log for hMailServer
 
 # Change Log
 
+- v.0.06 Fixed bug that messed up REGEX searches with "+" in the URL
 - v.0.05 Added REGEX search on HELO column - See notes below for usage
 - v.0.04 Fixed a typo
 - v.0.03 Minor changes to display of results statement above table
