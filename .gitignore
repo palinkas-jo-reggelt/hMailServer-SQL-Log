@@ -1,4 +1,5 @@
 # Ignore config file
 /config.php
 /tasks/hMSLogConfig.ps1
+/tasks/temp
 /temp/*
