@@ -1,0 +1,3 @@
+RedirectMatch 403 ^/tasks/.*$
+RedirectMatch 403 ^/events/.*$
+RedirectMatch 403 ^/temp/.*$

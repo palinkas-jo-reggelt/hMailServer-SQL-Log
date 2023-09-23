@@ -1,0 +1,11 @@
+DELETE FROM hm_log_attr;
+ALTER TABLE hm_log_attr AUTO_INCREMENT = 1;
+DELETE FROM hm_log_awstats;
+ALTER TABLE hm_log_awstats AUTO_INCREMENT = 1;
+DELETE FROM hm_log_ip;
+DELETE FROM hm_log_logon;
+ALTER TABLE hm_log_logon AUTO_INCREMENT = 1;
+DELETE FROM hm_log_msg;
+ALTER TABLE hm_log_msg AUTO_INCREMENT = 1;
+DELETE FROM hm_log_smtp;
+ALTER TABLE hm_log_smtp AUTO_INCREMENT = 1;

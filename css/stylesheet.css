@@ -1,0 +1,475 @@
+/*
+╦ ╦╔╦╗╔═╗╦╦  ╔═╗╔═╗╦═╗╦  ╦╔═╗╦═╗
+╠═╣║║║╠═╣║║  ╚═╗║╣ ╠╦╝╚╗╔╝║╣ ╠╦╝
+╩ ╩╩ ╩╩ ╩╩╩═╝╚═╝╚═╝╩╚═ ╚╝ ╚═╝╩╚═
+╔═╗╦ ╦╔═╗╔═╗╦═╗        ╦  ╔═╗╔═╗
+╚═╗║ ║╠═╝║╣ ╠╦╝        ║  ║ ║║ ╦
+╚═╝╚═╝╩  ╚═╝╩╚═        ╩═╝╚═╝╚═╝
+*/
+
+body {
+	background: #fefefe;
+	font-family: "Roboto";
+	font-size: 12pt;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    color: #000;
+	background: #fefefe;
+    z-index: 1;
+    overflow: hidden;
+    text-align:center;
+}
+
+.header h1 {
+	font-size:25px;
+    font-weight:normal;
+	margin:0 auto;
+}
+
+.header h2 {
+	font-size:15px;
+    font-weight:normal;
+	margin:0 auto;
+}
+
+.wrapper {
+	/* max-width: 920px; */
+	position: relative;
+	margin: 60px auto 30px auto;
+	padding-top: 10px;
+}
+
+.clear {
+	clear: both;
+}
+
+.banner {
+	width: 100%;
+}
+
+.headlinks {
+	max-width: 720px;
+	min-width: 300px;
+	position:relative;
+	margin: 0px auto 10px auto;
+}
+
+.headlinks a:link, a:active, a:visited {
+	color: red;
+	text-decoration: underline;
+}
+
+.headlinks a:hover {
+	color: red;
+	text-decoration: none;
+}
+
+.headspacer {
+	/* margin: 120px 0 0 0; */
+	/* padding: 10px; */
+}
+
+.section {
+	padding: 5px 0 15px 0;
+	margin: 10px;
+	display: block;
+	/* border: 1px dashed #ccc; */
+	/* border-radius: 20px; */
+}
+
+.section a:link, a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+.section a:hover, a:active {
+	color: red;
+	text-decoration: underline;
+}
+
+.section h2 {
+	font-size:16px;
+    font-weight:bold;
+	text-align:left;
+}
+
+.section h3 {
+	font-size:25px;
+    font-weight:bold;
+	text-align:center;
+}
+
+.secleft {
+	float: left;
+	width: 49%;
+	padding-right: 3px;
+}
+
+.secright {
+	float: right;
+	width: 49%;
+	padding-left: 3px;
+}
+
+.secmsgleft {
+	float: left;
+	width: 250px;
+	padding-right: 3px;
+}
+
+.secmsgright {
+	margin-left: 260px;
+	padding: 0 0 10px 0;
+	font-family: consolas;
+	word-wrap: break-word;
+}
+
+table.section {
+	border-collapse: collapse;
+	border: 1px solid black;
+	border-spacing: 10px;
+	width: 100%;
+	font-size: 10pt;
+}
+	
+table.section tr:nth-child(even) {
+    background-color: #F8F8F8;
+	padding: 4px;
+}
+
+table.section th, table.section td {
+	border: 1px solid black;
+	padding: 4px;
+	word-wrap: break-word;
+}
+
+.footer {
+	width: 100%;
+	text-align: center;
+	font-size: 8pt;
+}
+
+.nav {
+	font-size: 0.8em;
+}
+
+.nav a:link, a:active, a:visited {
+	/* color: red; */
+	text-decoration: underline;
+}
+
+.nav a:hover {
+	/* color: red; */
+	text-decoration: none;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+li {
+	padding: 0 3px 0 0;
+	display: inline;
+}
+
+.uriwidth {
+	max-width: 350px;
+}
+
+.truncate{
+	display: block;
+	max-width: 300px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* ###  TABLE CSS  ### */
+.div-table {
+	display: table;
+	width: 100%;
+	font-size: 0.8em;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.div-table-row-header {
+	display: table-row;
+	font-weight: bold;
+	text-align: center;
+}
+
+.div-table-row {
+	display: table-row;
+}
+
+.div-table-row:nth-of-type(even) { 
+	background: #eee; 
+	border: 1px solid #ccc; 
+}
+
+.div-table-col {
+	display: table-cell;
+	padding: 3px;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+}
+
+/* ###  SIMPLE TABLE CSS  ### */
+.simple-div-table {
+	display: table;
+	/* width: 100%; */
+	font-size: 0.8em;
+	border-left: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+.simple-div-table-row-header {
+	display: table-row;
+	font-weight: bold;
+	text-align: center;
+}
+
+.simple-div-table-row {
+	display: table-row;
+}
+
+.simple-div-table-row:nth-of-type(even) { 
+	background: #eee; 
+	border: 1px solid #ccc; 
+}
+
+.simple-div-table-col {
+	display: table-cell;
+	padding: 3px;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+}
+
+.center {
+	text-align: center;
+}
+
+.right {
+	text-align: right;
+}
+
+.left {
+	text-align: left;
+}
+
+.highlight {
+	background-color: yellow;
+	font-weight: bold;
+}
+
+.spamadjusted {
+	font-weight: bold;
+}
+
+.deadlink {
+	max-width: 700px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 10px;'
+	white-space: pre;           /* CSS 2.0 */
+	white-space: pre-wrap;      /* CSS 2.1 */
+	white-space: pre-line;      /* CSS 3.0 */
+	white-space: -pre-wrap;     /* Opera 4-6 */
+	white-space: -o-pre-wrap;   /* Opera 7 */
+	white-space: -moz-pre-wrap; /* Mozilla */
+	white-space: -hp-pre-wrap;  /* HP Printers */
+	word-wrap: break-word;      /* IE 5+ */
+}
+
+.node {
+	font-weight: normal;
+}
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+	border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 200px;
+	height: 200px;
+	background-color: #fff;
+	color: #000;
+	text-align: center;
+	border: 1px dotted black;
+	border-radius: 6px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 125%;
+	left: 50%;
+	margin-left: -100px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
+
+.emlFileName {
+	padding:5px;
+	/* background-color:#ffffcc; */
+	border:1px solid black;
+	border-radius:5px;
+	font-family:consolas;
+	font-size:.8em;
+	font-weight:bold;
+}
+
+input[type=button], input[type=submit], .button {
+	min-width:65px;
+}
+
+input[type=text], textarea, input[type=button], input[type=submit], .button {
+	border: 1px solid black;
+	border-radius:3px;
+}
+
+.chartcanvas {
+	margin: auto;
+	height: 150px;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+}
+
+.chartcanvas2 {
+	margin: auto;
+	width: 90%;
+	display: flex;
+	justify-content: center;
+}
+
+.resultsFrame {font-family: consolas;font-size: 12px;border:1px solid black;border-radius:5px;padding:10px;max-height:70vh;overflow:scroll;overflow-x:hidden;}
+.logline {display: block;padding-bottom: 0;line-break: auto;word-break: break-all;}
+.loglineleft {float:left;}
+.loglineright {margin-left:50px;}
+.logGroupContainer {padding-bottom: 10px;}
+.logGroupHeader {font-weight:bold;text-decoration-line: underline;text-decoration-style: dotted;text-decoration-thickness: 1px;background:rgba(102, 255, 102, 0.25)}
+
+@media only screen and (max-width: 629px) {
+	.logline {padding-bottom: 10px;}
+
+	.chartcanvas {
+		height: 200px;
+		width: 100%;
+	}
+
+	.chartcanvas2 {
+		width: 100%;
+	}
+
+	.node {
+		font-weight: bold;
+	}
+
+	.secleft {
+		float: none;
+		width: 100%;
+		padding: 0 0 10px 0;
+		text-align: left;
+	}
+	.secright {
+		float: none ;
+		width: 100% ;
+	}
+
+	.secmsgleft {
+		float: none;
+		width: 100%;
+		padding-right: 0px;
+	}
+
+	.secmsgright {
+		margin-left: 0px;
+		padding: 0 0 10px 5px;
+		white-space: pre;           /* CSS 2.0 */
+		white-space: pre-wrap;      /* CSS 2.1 */
+		white-space: pre-line;      /* CSS 3.0 */
+		white-space: -pre-wrap;     /* Opera 4-6 */
+		white-space: -o-pre-wrap;   /* Opera 7 */
+		white-space: -moz-pre-wrap; /* Mozilla */
+		white-space: -hp-pre-wrap;  /* HP Printers */
+		word-wrap: break-word;      /* IE 5+ */
+	}
+
+	/* ###  TABLE CSS  ### */
+	.div-table, .div-table-row-header, .div-table-row, .div-table-col { 
+		display: block; 
+	}
+	
+	.div-table {
+		border: none;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	.div-table-row-header { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	.div-table-row { 
+		border: none;
+		border-left: 1px solid #ccc; 
+		border-right: 1px solid #ccc; 
+	}
+	
+	.div-table-col { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #e6e6e6;
+		position: relative;
+		padding-left: 25%; 
+		text-align: left;
+		white-space: pre;           /* CSS 2.0 */
+		white-space: pre-wrap;      /* CSS 2.1 */
+		white-space: pre-line;      /* CSS 3.0 */
+		white-space: -pre-wrap;     /* Opera 4-6 */
+		white-space: -o-pre-wrap;   /* Opera 7 */
+		white-space: -moz-pre-wrap; /* Mozilla */
+		white-space: -hp-pre-wrap;  /* HP Printers */
+		word-wrap: break-word;      /* IE 5+ */
+	}
+
+	.div-table-col:before { 
+		/* Now like a table header */
+		border: none;
+		position: absolute;
+		top: 3px;
+		left: 6px;
+		padding-right: 10px; 
+		/* Label the data */
+		content: attr(data-column);
+		color: #000;
+		font-weight: bold;
+	}
+
+}	
