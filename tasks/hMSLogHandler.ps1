@@ -67,5 +67,5 @@ $Query = "
 MySQLQuery $Query
 
 <#  Expire IDS entries  #>
-$Query = "DELETE FROM hm_ids WHERE timestamp < NOW() - INTERVAL $ExpireIDS HOUR;"
+$Query = "DELETE FROM hm_ids WHERE timestamp < NOW() - INTERVAL $ExpireIDS MINUTE;"
 MySQLQuery $Query
