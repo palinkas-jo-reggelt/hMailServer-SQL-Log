@@ -337,7 +337,7 @@ MySQLQuery $QueryCountTo | ForEach {
 Write-Output "`$EnvToRows = `"$EnvToRows`";" | Out-File $StatsDataPHPTemp -Encoding ASCII -Append
 
 <#  Log Reasons Tables  #>
-$QueryCountReasons = "SELECT COUNT(*) AS count FROM hm_log_smtpa WHERE acc=1;"
+$QueryCountReasons = "SELECT COUNT(*) AS count FROM hm_log_smtp WHERE acc=1;"
 MySQLQuery $QueryCountReasons | ForEach {
 	$AllReasonsCount = $_.count
 }

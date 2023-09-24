@@ -2,6 +2,7 @@
 /config.php
 /tasks/hMSLogConfig.ps1
 /tasks/Temp
+/tasks/DBError-*
 /temp/*
 /statsCurrentData.php
 /test/
