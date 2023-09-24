@@ -1,8 +1,16 @@
-<?php include("head.php") ?>
-
 <?php
+/*
+╦ ╦╔╦╗╔═╗╦╦  ╔═╗╔═╗╦═╗╦  ╦╔═╗╦═╗
+╠═╣║║║╠═╣║║  ╚═╗║╣ ╠╦╝╚╗╔╝║╣ ╠╦╝
+╩ ╩╩ ╩╩ ╩╩╩═╝╚═╝╚═╝╩╚═ ╚╝ ╚═╝╩╚═
+╔═╗╦ ╦╔═╗╔═╗╦═╗        ╦  ╔═╗╔═╗
+╚═╗║ ║╠═╝║╣ ╠╦╝        ║  ║ ║║ ╦
+╚═╝╚═╝╩  ╚═╝╩╚═        ╩═╝╚═╝╚═╝
+*/
+
 	include_once("config.php");
 	include_once("functions.php");
+	include_once("head.php");
 
 	if (isset($_GET['page'])) {
 		$page = $_GET['page'];
@@ -14,7 +22,7 @@
 	}
 	if (isset($_GET['search'])) {
 		$search = $_GET['search'];
-		$search_SQL = "WHERE ".$countryColumnName." LIKE '%".$search."%' OR ipaddress LIKE '%".$search."%'";
+		$search_SQL = "WHERE country LIKE '%".$search."%' OR ipaddress LIKE '%".$search."%'";
 		$search_ph = $search;
 		$search_hidden = "<input type='hidden' name='search' value='".$search."'>";
 		$search_page = "&search=".$search;
@@ -22,11 +30,11 @@
 		$search = "";
 		$search_SQL = "";
 		$search_ph = "";
-		$search_hidden = "";
+		// $search_hidden = "";
 		$search_page = "";
 	}
 	if (isset($_GET['clear'])) {
-		redirect("/");
+		redirect("./ids.php");
 	}
 	
 	if (isset($_GET['sort1'])) {
@@ -47,12 +55,12 @@
 		$sort1_sql = "";
 		$sort1_ph = "Sort";
 		$sort1_page = "";
-		$sort1_hidden = "";
+		// $sort1_hidden = "";
 	}
 	if (isset($_GET['sort2'])) {
 		$sort2_val = $_GET['sort2'];
 		$sort2_page = "&sort2=".$sort2_val;
-		$sort2_hidden = "<input type='hidden' name='sort1' value='".$sort2_val."'>";
+		$sort2_hidden = "<input type='hidden' name='sort2' value='".$sort2_val."'>";
 		if ($_GET['sort2'] == "hitsasc") {$sort2_sql = ", hits ASC"; $sort2_ph = "&#8593; Hits";}
 		else if ($_GET['sort2'] == "hitsdesc") {$sort2_sql = ", hits DESC"; $sort2_ph = "&#8595; Hits";}
 		else if ($_GET['sort2'] == "newest") {$sort2_sql = ", timestamp ASC"; $sort2_ph = "&#8593; Date";}
@@ -67,7 +75,7 @@
 		$sort2_sql = "";
 		$sort2_ph = "Sort";
 		$sort2_page = "";
-		$sort2_hidden = "";
+		// $sort2_hidden = "";
 	}
 	if ((isset($_GET['sort1'])) || (isset($_GET['sort2']))) {
 		$orderby = "ORDER BY ";
@@ -78,52 +86,37 @@
 	echo "
 	<div class='section'>
 		<div style='line-height:24px;display:inline-block;'>
-			<form autocomplete='off' action='".$_SERVER['PHP_SELF']."' method='GET'>
+			<form autocomplete='off' action='ids.php' method='GET'>
 				<select name='sort1' onchange='this.form.submit()'>
 					<option value='".$sort1_val."'>".$sort1_ph."</option>
 					<option value='hitsasc'>&#8593; Hits</option>
 					<option value='hitsdesc'>&#8595; Hits</option>
 					<option value='newest'>&#8593; Date</option>
-					<option value='oldest'>&#8595; Date</option>";
-	if ($useGeoIP) {
-		echo"
+					<option value='oldest'>&#8595; Date</option>
 					<option value='countryasc'>&#8593; Country</option>
-					<option value='countrydesc'>&#8595; Country</option>";
-	}
-	echo "
+					<option value='countrydesc'>&#8595; Country</option>
 					<option value='ipasc'>&#8593; IP</option>
 					<option value='ipdesc'>&#8595; IP</option>
-				</select>
-				".$search_hidden."
-			</form>";
+				</select>";
 	
 	if (isset($_GET['sort1'])) {
 		echo "
-			<form autocomplete='off' action='".$_SERVER['PHP_SELF']."' method='GET'>
 				<select name='sort2' onchange='this.form.submit()'>
 					<option value='".$sort2_val."'>".$sort2_ph."</option>
 					<option value='hitsasc'>&#8593; Hits</option>
 					<option value='hitsdesc'>&#8595; Hits</option>
 					<option value='newest'>&#8593; Date</option>
-					<option value='oldest'>&#8595; Date</option>";
-	if ($useGeoIP) {
-		echo"
+					<option value='oldest'>&#8595; Date</option>
 					<option value='countryasc'>&#8593; Country</option>
-					<option value='countrydesc'>&#8595; Country</option>";
-	}
-	echo "
+					<option value='countrydesc'>&#8595; Country</option>
 					<option value='ipasc'>&#8593; IP</option>
 					<option value='ipdesc'>&#8595; IP</option>
-				</select>
-				".$search_hidden.$sort1_hidden."
-			</form>";
+				</select>";
 	}
 	echo "
-			<form autocomplete='off' action='".$_SERVER['PHP_SELF']."' method='GET'><br>
 				<input type='text' size='20' id='autocomplete' name='search' placeholder='Search Country or IP...' value='".$search_ph."'>
 				<input type='submit' value='Search'>
 				<button class='button' type='submit' name='clear'>Reset</button>
-				".$sort1_hidden.$sort2_hidden."
 			</form>
 		</div>
 	</div>
@@ -189,10 +182,10 @@
 		while($row = $sql->fetch(PDO::FETCH_ASSOC)){
 			echo "
 			<div class='div-table-row'>
-				<div class='div-table-col mobile-bold' data-column='IP Address'><a href='./data.php?search=".$row['ipaddress']."'>".$row['ipaddress']."</a></div>
+				<div class='div-table-col center mobile-bold' data-column='IP Address'><a href='./data.php?search=".$row['ipaddress']."'>".$row['ipaddress']."</a></div>
 				<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>
 				<div class='div-table-col center' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['timestamp']))."</div>
-				<div class='div-table-col' data-column='Country'><a href='https://geoip.dynu.net/map/".$row['ipaddress']."' target='_blank'>".$row['trimcountry']."</a></div>
+				<div class='div-table-col center' data-column='Country'><a href='https://geoip.dynu.net/map/".$row['ipaddress']."' target='_blank'>".$row['trimcountry']."</a></div>
 			</div>";
 		}
 		echo "
