@@ -82,6 +82,12 @@
 	} else {
 		$orderby = "ORDER BY timestamp DESC";
 	}
+	if(isset($_POST['delete'])){
+		if(!empty($_POST['delete'])) {
+			$sql_ip = "DELETE FROM hm_ids WHERE ipaddress = '".$_POST['delete']."';";
+			$pdo->exec($sql_ip);
+		}
+	}
 
 	echo "
 	<div class='section'>
@@ -171,25 +177,31 @@
 	} else {
 		echo "
 		<span style='font-size:0.8em;'>Results ".$search_res.": ".number_format($total_rows)." Record".$singular." ".$pagination."<br></span>
-		<div class='div-table'>
-			<div class='div-table-row-header'>
-				<div class='div-table-col'>IP Address</div>
-				<div class='div-table-col'>Hits</div>
-				<div class='div-table-col'>Last</div>
-				<div class='div-table-col'>Country</div>
-			</div>";
+		<form autocomplete='off' id='domForm' action='".$_SERVER['REQUEST_URI']."' method='POST'>
+			<div class='div-table'>
+				<div class='div-table-row-header'>
+					<div class='div-table-col'>IP Address</div>
+					<div class='div-table-col'>Hits</div>
+					<div class='div-table-col'>Last</div>
+					<div class='div-table-col'>Country</div>
+					<div class='div-table-col'>Delete</div>
+				</div>";
 		
 		while($row = $sql->fetch(PDO::FETCH_ASSOC)){
 			echo "
-			<div class='div-table-row'>
-				<div class='div-table-col center mobile-bold' data-column='IP Address'><a href='./data.php?search=".$row['ipaddress']."'>".$row['ipaddress']."</a></div>
-				<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>
-				<div class='div-table-col center' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['timestamp']))."</div>
-				<div class='div-table-col center' data-column='Country'><a href='https://geoip.dynu.net/map/".$row['ipaddress']."' target='_blank'>".$row['trimcountry']."</a></div>
-			</div>";
+				<div class='div-table-row'>
+					<div class='div-table-col center mobile-bold' data-column='IP Address'><a href='./data.php?search=".$row['ipaddress']."'>".$row['ipaddress']."</a></div>
+					<div class='div-table-col center' data-column='Hits'>".number_format($row['hits'])."</div>
+					<div class='div-table-col center' data-column='Last'>".date("y/m/d H:i:s", strtotime($row['timestamp']))."</div>
+					<div class='div-table-col center' data-column='Country'><a href='https://geoip.dynu.net/map/".$row['ipaddress']."' target='_blank'>".$row['trimcountry']."</a></div>
+					<div class='div-table-col center' data-column='Delete'>
+						<input type='checkbox' style='height:10px;margin:0;' name='delete' value='".$row['ipaddress']."' onClick='return confirmSubmit()' onchange='submitFunction()'>
+					</div>
+				</div>";
 		}
 		echo "
-		</div>"; // End table
+			</div>
+		</form>"; // End table
 
 		if ($total_pages == 1){
 			echo "";
@@ -211,15 +223,29 @@
 	// JS autocomplete
 	echo "
 	<script>
-	$(function() {
-		$('#autocomplete').autocomplete({
-			source: 'autocomplete.php',
-			select: function( event, ui ) {
-				event.preventDefault();
-				$('#autocomplete').val(ui.item.value);
-			}
+		$(function() {
+			$('#autocomplete').autocomplete({
+				source: 'autocomplete.php',
+				select: function( event, ui ) {
+					event.preventDefault();
+					$('#autocomplete').val(ui.item.value);
+				}
+			});
 		});
-	});
+	</script>
+	<script>
+		function submitFunction() {
+			document.getElementById('domForm').submit();
+		}
+	</script>
+	<script>
+		function confirmSubmit(){
+			var agree=confirm(\"Are you sure you to delete this record?\");
+			if (agree)
+				return true ;
+			else
+				return false ;
+		}
 	</script>";
 
 ?>
