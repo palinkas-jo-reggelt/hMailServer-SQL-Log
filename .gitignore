@@ -5,4 +5,5 @@
 /tasks/DBError-*
 /temp/*
 /statsCurrentData.php
+/statsData.php
 /test/
