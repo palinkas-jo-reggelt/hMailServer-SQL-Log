@@ -32,7 +32,7 @@
 	$addressFail = false;
 	
 	$hMS = hMSAuthenticate();
-	$logFolder = $hMS->Settings->Directories->DataDirectory;
+	$dataFolder = $hMS->Settings->Directories->DataDirectory;
 
 	if (is_array($fnArray) && count($fnArray)>0) {
 		foreach ($fnArray as $fn) {
