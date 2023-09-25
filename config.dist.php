@@ -22,7 +22,6 @@ $log_ext                = "log|txt";                  // Filename extensions of 
 
 // hMailServer Variables
 $hMSAdminPass           = "supersecretpassword";      // Administrator password
-$dataFolder             = "C:\\HMS-DATA\\Data";       // Data folder - required for display of Raw EML files (no trailing slash "\" please)
 $spamAccount            = "spam@spam.domain.tld";     // Account to which spam is forwarded for administrator inspection (if used) (options are "account@address" or false)
 $postMaster             = "postmaster@domain.tld";    // Postmaster account to copy on unsubscriber messages
 
