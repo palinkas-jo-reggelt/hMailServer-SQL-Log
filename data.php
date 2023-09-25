@@ -292,6 +292,7 @@
 			<div class='div-table-row-header'>
 				<div class='div-table-col'>Timestamp</div>
 				<div class='div-table-col'>IP</div>
+				<div class='div-table-col'>Search</div>
 				<div class='div-table-col'>Port</div>
 				<div class='div-table-col'>Country</div>
 				<div class='div-table-col center'>Event</div>
@@ -313,6 +314,7 @@
 			<div class='div-table-row'>
 				<div class='div-table-col center' data-column='Timestamp'>".date("y/m/d H:i:s", strtotime($row['timestamp']))."</div>
 				<div class='div-table-col center' data-column='IP'><a href='./data.php?search=".$row['ipa']."'>".$row['ipa']."</a>&nbsp;</div>
+				<div class='div-table-col center' data-column='Search'><a href='./ids.php?search=".$row['ipa']."'>IDS</a> | <a href='./logons.php?search=".$row['ipa']."'>LOGONS</a> | <a href='./logsearch.php?search=".$row['ipa']."'>LOGS</a>&nbsp;</div>
 				<div class='div-table-col center' data-column='Port'>".$row['port']."&nbsp;</div>
 				<div class='div-table-col' data-column='Country'><a href='https://geoip.dynu.net/map/".$row['ipa']."' target='_blank'>".$row['country']."</a>&nbsp;</div>
 				<div class='div-table-col' data-column='Event'>".$row['event']."&nbsp;</div>

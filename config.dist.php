@@ -18,6 +18,7 @@ $no_of_records_per_page = 30;                         // Pagination - Number of 
 $viewport_width         = 1400;                       // Width of tables. Set lower for lower screen resolution. Does not affect mobile view (small screens).
 $TimeZone               = 'America/New_York';         // Timezone of server - required for converting to UTC for hMailServer db message queries
 $msgSearchInterval      = 30;                         // Interval in SECONDS, used for searching for filename of physical EML files
+$log_ext                = "log|txt";                  // Filename extensions of type to search for in "LogSearch" page - searches hMailServer log files by keyword
 
 // hMailServer Variables
 $hMSAdminPass           = "supersecretpassword";      // Administrator password
