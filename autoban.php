@@ -23,7 +23,7 @@
 	if (isset($_GET['search'])) {
 		if ($_GET['search'] <> "") {
 			$search = $_GET['search'];
-			$search_SQL = "AND (INET_NTOA(rangelowerip1) LIKE '%".$search."%') OR rangename LIKE '%".$search."%')";
+			$search_SQL = "AND (INET_NTOA(rangelowerip1) LIKE '%".$search."%' OR rangename LIKE '%".$search."%')";
 			$search_ph = $search;
 			$search_page = "&search=".$search;
 		} else {
