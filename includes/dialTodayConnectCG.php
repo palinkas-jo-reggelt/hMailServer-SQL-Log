@@ -13,43 +13,8 @@
 	include_once($_SERVER['DOCUMENT_ROOT']."/statsData.php");
 	include_once($_SERVER['DOCUMENT_ROOT']."/statsCurrentData.php");
 
-/*
-	//Get guage max
-	$sqlmax = $pdo->prepare("
-		SELECT	
-			ROUND(((COUNT(ip)) * 1.25), -2) AS dailymax,
-			DATE(timestamp) AS daily
-		FROM hm_log_smtp a
-		JOIN hm_log_smtpa b ON a.id = b.id
-		WHERE acc=1 AND reason='Client_Connection' AND DATE(timestamp) < DATE(NOW())
-		GROUP BY daily
-		ORDER BY dailymax DESC
-		LIMIT 1;
-	");
-	$sqlmax->execute();
-	$gaugeMaxC = $sqlmax->fetchColumn();
+	// https://bernii.github.io/gauge.js/
 
-	//Set guage color marker points
-	if (!$sqlmax->rowCount() > 0){$gaugeMaxC = 100;}
-	$gauge100C = ($gaugeMaxC / 1.25);
-	$gauge75C = ($gauge100C * 0.75);
-	$gauge50C = ($gauge100C * 0.5);
-	$gauge25C = ($gauge100C * 0.25);
-*/
-
-	//Get current (today's) bans
-	// $sql = $pdo->prepare("
-		// SELECT 
-			// COUNT(ip) AS hits
-		// FROM (
-			// SELECT * FROM (SELECT id AS ida, timestamp, ip FROM hm_log_smtp) a
-			// JOIN (SELECT id AS idb, acc, reason FROM hm_log_smtpa) b ON a.ida = b.idb
-			// WHERE '".date('Y-m-d')." 00:00:00' <= timestamp AND acc=1 AND reason='Client_Connection'
-		// ) AS x
-		// WHERE timestamp <= '".date('Y-m-d')." 23:59:59' AND acc=1 AND reason='Client_Connection';
-	// ");
-	// $sql->execute();
-	// $hitsC = $sql->fetchColumn();
 	echo "
 						<canvas data-type='radial-gauge'
 							data-width='".$datawidth."'

@@ -15,33 +15,6 @@
 
 	// https://bernii.github.io/gauge.js/
 
-/*	
-	//Get guage max
-	$sqlmax = $pdo->prepare("
-		SELECT	
-			ROUND(((COUNT(timestamp)) * 1.2), -1) AS dailymax,
-			DATE(timestamp) AS daily
-		FROM hm_log_msg 
-		WHERE DATE(timestamp) < DATE(NOW())
-		GROUP BY daily
-		ORDER BY dailymax DESC
-		LIMIT 1;
-	");
-	$sqlmax->execute();
-	$gaugeMaxM = $sqlmax->fetchColumn();
-
-	//Set guage color marker points
-	if (!$sqlmax->rowCount() > 0){$gaugeMaxM = 100;}
-	$gauge100M = ($gaugeMaxM / 1.25);
-	$gauge75M = ($gauge100M * 0.75);
-	$gauge50M = ($gauge100M * 0.5);
-	$gauge25M = ($gauge100M * 0.25);
-*/
-
-	//Get current (today's) bans
-	// $sql = $pdo->prepare("SELECT COUNT(*) FROM hm_log_msg WHERE DATE(timestamp) = DATE(NOW());");
-	// $sql->execute();
-	// $hitsM = $sql->fetchColumn();
 	echo "
 					<canvas data-type='radial-gauge'
 						data-width='".$datawidth."'

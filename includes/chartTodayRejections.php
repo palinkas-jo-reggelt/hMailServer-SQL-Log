@@ -13,23 +13,6 @@
 	include_once($_SERVER['DOCUMENT_ROOT']."/statsData.php");
 	include_once($_SERVER['DOCUMENT_ROOT']."/statsCurrentData.php");
 
-	// $query = $pdo->prepare("
-		// SELECT reason, COUNT(*) as numhits 
-		// FROM hm_log_smtp a
-		// JOIN hm_log_smtpa b ON a.id = b.id
-		// WHERE acc=0 AND DATE(timestamp) = DATE(NOW())
-		// GROUP BY reason
-		// ORDER BY reason ASC;
-	// ");
-	// $query->execute();
-
-	// $dataArr = array();
-	// $labelArr = array();
-	// while($row = $query->fetch(PDO::FETCH_ASSOC)){
-		// array_push($dataArr, $row['numhits']);
-		// array_push($labelArr, "'".$row['reason']."'");
-	// }
-
 	echo "
 	<script>
 		new Chart('chart_today_rej', {

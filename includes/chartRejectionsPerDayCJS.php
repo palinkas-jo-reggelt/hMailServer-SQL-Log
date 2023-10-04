@@ -12,28 +12,6 @@
 	include_once($_SERVER['DOCUMENT_ROOT']."/functions.php");
 	include_once($_SERVER['DOCUMENT_ROOT']."/statsData.php");
 
-	// $query = $pdo->prepare("
-		// SELECT DATE(timestamp) AS daily, COUNT(ip) AS hits 
-		// FROM hm_log_smtp a
-		// JOIN hm_log_smtpa b ON a.id = b.id
-		// WHERE DATE(timestamp) < DATE(NOW()) AND acc=0
-		// GROUP BY daily ASC
-	// ");
-	// $query->execute();
-	// $dataArr = array();
-	// $hitsArr = array();
-	// $dateArr = array();
-	// $iterArr = array();
-	// $i=1;
-	// while($row = $query->fetch(PDO::FETCH_ASSOC)){
-		// $data = "{x: '".$row['daily']."', y: ".$row['hits']."}";
-		// array_push($dataArr, $data);
-		// array_push($hitsArr, $row['hits']);
-		// array_push($dateArr, $row['daily']);
-		// array_push($iterArr, $i);
-		// $i++;
-	// }
-
 	$trendarrayRPD = linear_regression($iterArrRPD, $hitsArrRPD);
 	$trendlineArrRPD = array();
 	for ($j = 0; $j < count($hitsArrRPD); $j++) {

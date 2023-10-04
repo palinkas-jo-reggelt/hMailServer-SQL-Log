@@ -100,7 +100,7 @@ Write-Output "`$gauge75C = $gauge75C;" | Out-File $StatsDataPHPTemp -Encoding AS
 Write-Output "`$gauge50C = $gauge50C;" | Out-File $StatsDataPHPTemp -Encoding ASCII -Append
 Write-Output "`$gauge25C = $gauge25C;" | Out-File $StatsDataPHPTemp -Encoding ASCII -Append
 
-<#  Today's Connections Dial - Max  #>
+<#  Today's Rejections Dial - Max  #>
 $QueryDTR = "
 	SELECT	
 		ROUND(((COUNT(ip)) * 1.25), -2) AS dailymax,
@@ -126,7 +126,7 @@ Write-Output "`$gauge75R = $gauge75R;" | Out-File $StatsDataPHPTemp -Encoding AS
 Write-Output "`$gauge50R = $gauge50R;" | Out-File $StatsDataPHPTemp -Encoding ASCII -Append
 Write-Output "`$gauge25R = $gauge25R;" | Out-File $StatsDataPHPTemp -Encoding ASCII -Append
 
-<#  Today's Connections Dial - Max  #>
+<#  Today's Messages Dial - Max  #>
 $QueryDTM = "
 	SELECT	
 		ROUND(((COUNT(timestamp)) * 1.25), -1) AS dailymax,

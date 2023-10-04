@@ -17,6 +17,12 @@
 		<h3>Extra Items</h3>
 		<div style='border:1px solid black;border-radius:5px;padding:10px;'>";
 
+	// Autoban
+	echo "
+			<div class='secmsgleft'><b>Autoban:</b></div>
+			<div class='secmsgright'><a href='./autoban.php'>View or delete autoban entries</a></div>
+			<div class='clear'></div>";
+
 	// Unread Messages Count
 	echo "
 			<div class='secmsgleft'><b>Unread:</b></div>
