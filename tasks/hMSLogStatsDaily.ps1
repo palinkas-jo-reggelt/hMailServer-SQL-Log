@@ -339,7 +339,12 @@ Write-Output "`$EnvToRows = `"$EnvToRows`";" | Out-File $StatsDataPHPTemp -Encod
 <#  Log Reasons Tables  #>
 $QueryCountReasons = "SELECT COUNT(*) AS count FROM hm_log_smtp WHERE acc=1;"
 MySQLQuery $QueryCountReasons | ForEach {
-	$AllReasonsCount = $_.count
+	$AllReasonsCountAcc = $_.count
+}
+
+$QueryCountReasons = "SELECT COUNT(*) AS count FROM hm_log_smtp WHERE acc=0;"
+MySQLQuery $QueryCountReasons | ForEach {
+	$AllReasonsCountRej = $_.count
 }
 
 $QueryCountAcc = "
@@ -353,7 +358,7 @@ $ReasonAccRows = ""
 MySQLQuery $QueryCountAcc | ForEach {
 	$ReasAcc = $_.reason
 	$CountReasonAcc = ($_.count).ToString("#,###")
-	$PercentReasonAcc = ($_.count / $AllReasonsCount).ToString("0.0%")
+	$PercentReasonAcc = ($_.count / $AllReasonsCountAcc).ToString("0.0%")
 	$ReasonAccRows += "
 				<div class='div-table-row'>
 					<div class='div-table-col' data-column='Reason'><a href='./data.php?reason=$ReasAcc'>$ReasAcc</a></div>
@@ -374,7 +379,7 @@ $ReasonRejRows = ""
 MySQLQuery $QueryCountRej | ForEach {
 	$ReasRej = $_.reason
 	$CountReasonRej = ($_.count).ToString("#,###")
-	$PercentReasonRej = ($_.count / $AllReasonsCount).ToString("0.0%")
+	$PercentReasonRej = ($_.count / $AllReasonsCountRej).ToString("0.0%")
 	$ReasonRejRows += "
 				<div class='div-table-row'>
 					<div class='div-table-col' data-column='Reason'><a href='./data.php?reason=$ReasRej'>$ReasRej</a></div>

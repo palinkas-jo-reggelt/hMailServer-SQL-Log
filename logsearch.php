@@ -116,6 +116,7 @@
 				$fileName = $logFolder.DIRECTORY_SEPARATOR.$logFile;
 				$logLineIterator = 0;
 				$lineCounter = 0;
+				$linePosition = 1;
 				$data = array();
 
 				if (file_exists($fileName)) {
@@ -156,12 +157,13 @@
 									$results[$logIterator][0] = array($logFile, $logLineIterator);
 								}
 								$results[$logIterator][0][1] = $logLineIterator + 1;
-								$results[$logIterator][1][] = array($lineIterator, $line);
+								$results[$logIterator][1][] = array($linePosition, $line);
 
 								$logLineIterator++;
 							} else {
 								// do nothing
 							}
+							$linePosition++;
 						}
 						fclose($file);
 					} else {
@@ -208,7 +210,7 @@
 				foreach ($result[1] as $lineresult) {
 					echo "
 		<div class='logline'>
-			<div class='loglineleft'>".number_format($lineresult[0]).".</div>
+			<div class='loglineleft'>Line ".number_format($lineresult[0]).".</div>
 			<div class='loglineright'>".$lineresult[1]."</div>
 		</div>";
 				}
